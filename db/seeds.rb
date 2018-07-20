@@ -132,5 +132,14 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+## Creating reviews
+
+bookshelf = Product.find_or_create_by! name: 'Red Bookshelf'
+
+  bookshelf.reviews.create!({
+   user_id: 1,
+   rating: 1,
+   description: "This shit sucks"
+  })
 
 puts "DONE!"

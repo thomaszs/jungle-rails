@@ -25,7 +25,39 @@
         </dl>
       </div>
     </div>
+ 
+    <div class="row">
+    <div class="col-sm-2">
+        <dl class="dl-verticle">
+        <dd> Add a review </dd>
+        <%= form_for :review, url: product_reviews_path(@product.id) do |f| %>
+          <%= f.select :rating, choices=[1, 2, 3, 4, 5] %>
+          Description: <%= f.text_area :description %>
+          <%= f.submit %>
+        <% end %>
+        </dl>
 
-  </article>
+<ul class="list-group">
+<h3> Reviews </h3>
+  <% if (@reviews.length == 0) %>
+  There is no review for this product.
+  <% end %>
 
+  <% @reviews.each do |review| %>
+  <% user =  User.find(review.user_id) %>
+    <li class="list-group-item"> <h4>User</h4> <%= user.first_name%> <%= user.last_name%></li>
+    <li class="list-group-item"> <h4>Review</h4> <%= review.description %> </li>
+    <li class="list-group-item"> <h4>Rating</h4> <%= review.rating %>/5</li>
+      <% if current_user %>
+      <% if (current_user.first_name == user.first_name) %>
+      <dt>Delete</dt>
+      <dd><%= link_to fa_icon('minus-circle'), product_review_path(:product_id => @product.id, :id => review.id), method: :delete %></dd>
+      <% end %>
+      <% end %>
+      <% end %>
+        </dl>
+      </div>
+    </div>
+    </ul>
+    </article>
 </section>
